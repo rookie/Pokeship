@@ -51,9 +51,12 @@ class GameScene: SKScene {
             let positionState = board.stateForPosition(position)
           
             if let touchedNode = self.nodeAtPoint(location) as? SKShapeNode {
+                
+                playPokeball(position)
+                
               switch positionState {
               case .None:
-                break
+                touchedNode.fillColor = UIColor.whiteColor()
               case .Close:
                 touchedNode.fillColor = UIColor.yellowColor()
               case .Occupied:
@@ -114,6 +117,10 @@ class GameScene: SKScene {
         sprite.position = rect.origin
         
         self.addChild(sprite)
+        
+        let wait = SKAction.waitForDuration(0.2)
+        let remove = SKAction.removeFromParent()
+        sprite.runAction(SKAction.sequence([wait, remove]))
     }
   
   func pokemonRectForPosition(position: Position) -> CGRect {
